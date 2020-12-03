@@ -1,4 +1,5 @@
 from bin.account import Account
+from textwrap import dedent
 
 
 class Customer(Account):
@@ -13,8 +14,10 @@ class Customer(Account):
 
     def __str__(self):
         output = f"""
+        ***************************************
         Name : {self.get_fullname()}
         Account No: {self.account_no}
         Account Balance: {self.account_balance}
+        ****************************************
         """
-        return output
+        return dedent(output)

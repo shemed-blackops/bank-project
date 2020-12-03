@@ -24,8 +24,27 @@ def print_menu():
 
 
 def main():
+    # Printing banner and Menu
     print_banner()
     print_menu()
+
+    # Taking user input
+    details = {}
+    first_name = input('First Name: ')
+    last_name = input('Last Name: ')
+    phone_number = input('Phone Number: ')
+
+    # Adding to details
+    details = {
+        'first_name': first_name,
+        'last_name': last_name,
+        'phone_number': phone_number
+    }
+
+    # Creating customer
+    customer = Customer(details)
+    print(str(customer))
+    # print(details)
 
 
 if __name__ == '__main__':
