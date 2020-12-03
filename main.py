@@ -1,4 +1,5 @@
 from bin.customer import Customer
+from bin.db import DB
 
 
 def print_banner():
@@ -43,8 +44,10 @@ def main():
 
     # Creating customer
     customer = Customer(details)
-    print(customer)
-    # print(details)
+
+    # Creating database object
+    db = DB()
+    print(db)
 
 
 if __name__ == '__main__':
