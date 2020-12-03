@@ -27,8 +27,6 @@ def main():
     print_banner()
     print_menu()
 
-    
-
 
 if __name__ == '__main__':
     main()
