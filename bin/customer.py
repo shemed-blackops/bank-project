@@ -10,3 +10,8 @@ class Customer(Account):
 
     def get_fullname(self):
         return f"{self.details.get('first_name')} {self.details.get('last_name')}"
+
+    def __str__(self):
+        print(f'Name : {self.get_fullname()}')
+        print(f'Account No: {self.account_no}')
+        print(f'Account Balance: {self.account_balance}')
