@@ -43,7 +43,7 @@ def main():
 
     # Creating customer
     customer = Customer(details)
-    print(str(customer))
+    print(customer)
     # print(details)
 
 
