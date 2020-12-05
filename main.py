@@ -47,6 +47,10 @@ def menu_existing_user():
 
 def main():
     # Printing banner and Menu
+
+    # Create customer object
+    customer = Customer()
+
     print_banner()
     print_welcome_screen()
     choice = input('> ')
@@ -67,8 +71,7 @@ def main():
                 'last_name': last_name,
                 'phone_number': phone_number
             }
-            # Creating database object
-            customer = Customer()
+            # Insert customer data
             customer.insert_data(details)
 
     # Existing user
@@ -80,9 +83,16 @@ def main():
         choice = input('> ')
         if choice == '1':
             # Fetch account details
-            customer = Customer()
             summary = customer.account_summary(account_number)
             print(summary)
+        elif choice == '2':
+            print('Amount: ')
+            amount = float(input('> '))
+            result = customer.deposit(account_number, amount)
+            print(result)
+            summary = customer.account_summary(account_number)
+            print(summary)
+
 
 
 if __name__ == '__main__':
