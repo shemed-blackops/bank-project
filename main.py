@@ -92,7 +92,13 @@ def main():
             print(result)
             summary = customer.account_summary(account_number)
             print(summary)
-
+        elif choice == '3':
+            print('Amount')
+            amount = float(input('> '))
+            result = customer.withdraw(account_number, amount)
+            print(result)
+            summary = customer.account_summary(account_number)
+            print(summary)
 
 
 if __name__ == '__main__':
