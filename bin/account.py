@@ -30,8 +30,17 @@ class Account:
         db.close()
         return 'Amount Deposit successfully'
 
-    def withdraw(self, amount):
-        self.account_balance -= amount
-
-    def summary(self):
-        return self.account_balance
+    def withdraw(self, account_no, amount):
+        db = Database().connect()
+        c = db.cursor()
+        withdraw_query = """
+               UPDATE account
+               SET account_balance = account_balance - %s
+               WHERE account.account_no = %s
+               """
+        withdraw_data = (amount, account_no)
+        c.execute(withdraw_query, withdraw_data)
+        db.commit()
+        c.close()
+        db.close()
+        return 'Amount withdraw successfully'
