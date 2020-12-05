@@ -53,17 +53,17 @@ def main():
 
     print_banner()
     print_welcome_screen()
-    choice = input('> ')
+    choice = clean_data(input('> '))
     if choice == '1':
         menu_new_user()
         # For new user
         # Taking user input
         # details = {}
-        choice = input('> ')
+        choice = clean_data(input('> '))
         if choice == '1':
-            first_name = input('First Name: ')
-            last_name = input('Last Name: ')
-            phone_number = input('Phone Number: ')
+            first_name = clean_data(input('First Name: '))
+            last_name = clean_data(input('Last Name: '))
+            phone_number = clean_data(input('Phone Number: '))
 
             # Adding to details
             details = {
@@ -77,28 +77,32 @@ def main():
     # Existing user
     elif choice == '2':
         print('Account Number: ')
-        account_number = input('> ')
+        account_number = clean_data(input('> '))
 
         menu_existing_user()
-        choice = input('> ')
+        choice = clean_data(input('> '))
         if choice == '1':
             # Fetch account details
             summary = customer.account_summary(account_number)
             print(summary)
         elif choice == '2':
             print('Amount: ')
-            amount = float(input('> '))
+            amount = float(clean_data(input('> ')))
             result = customer.deposit(account_number, amount)
             print(result)
             summary = customer.account_summary(account_number)
             print(summary)
         elif choice == '3':
             print('Amount')
-            amount = float(input('> '))
+            amount = float(clean_data(input('> ')))
             result = customer.withdraw(account_number, amount)
             print(result)
             summary = customer.account_summary(account_number)
             print(summary)
+
+
+def clean_data(data):
+    return data.strip()
 
 
 if __name__ == '__main__':
