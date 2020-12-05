@@ -1,3 +1,5 @@
+import sys
+
 from bin.customer import Customer
 from bin.db import Database
 
@@ -77,11 +79,17 @@ def main():
             # Display customer details after registration
             summary = customer.initial_account_details()
             print(summary)
-
+        else:
+            print('Wrong choice')
+            sys.exit()
     # Existing user
     elif choice == '2':
         print('Account Number: ')
-        account_number = clean_data(input('> '))
+        try:
+            account_number = clean_data(input('> '))
+        except:
+            print('Error occurred')
+            sys.exit()
 
         menu_existing_user()
         choice = clean_data(input('> '))
@@ -90,19 +98,32 @@ def main():
             summary = customer.account_summary(account_number)
             print(summary)
         elif choice == '2':
-            print('Amount: ')
-            amount = float(clean_data(input('> ')))
-            result = customer.deposit(account_number, amount)
-            print(result)
-            summary = customer.account_summary(account_number)
-            print(summary)
+            try:
+                print('Amount: ')
+                amount = float(clean_data(input('> ')))
+                result = customer.deposit(account_number, amount)
+                print(result)
+                summary = customer.account_summary(account_number)
+                print(summary)
+            except Exception:
+                print('Error occurred')
+                sys.exit()
         elif choice == '3':
             print('Amount')
-            amount = float(clean_data(input('> ')))
-            result = customer.withdraw(account_number, amount)
-            print(result)
-            summary = customer.account_summary(account_number)
-            print(summary)
+            try:
+                amount = float(clean_data(input('> ')))
+                result = customer.withdraw(account_number, amount)
+                print(result)
+                summary = customer.account_summary(account_number)
+                print(summary)
+            except Exception:
+                print('Error occured. ')
+        else:
+            print('Wrong choice')
+            sys.exit()
+    else:
+        print('Wrong choice')
+        sys.exit()
 
 
 def clean_data(data):
