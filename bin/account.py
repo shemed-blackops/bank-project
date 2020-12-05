@@ -1,6 +1,5 @@
-import re
 import random
-from datetime import datetime
+from bin.db import Database
 
 
 class Account:
@@ -16,8 +15,20 @@ class Account:
         cvc = str(random.randint(100, 999))
         return f"{first_chunk}{second_chunk}{cvc}"
 
-    def deposit(self, amount):
-        self.account_balance += amount
+    def deposit(self, account_no, amount):
+        db = Database().connect()
+        c = db.cursor()
+        deposit_query = """
+        UPDATE account
+        SET account_balance = account_balance + %s
+        WHERE account.account_no = %s
+        """
+        deposit_data = (amount, account_no)
+        c.execute(deposit_query, deposit_data)
+        db.commit()
+        c.close()
+        db.close()
+        return 'Amount Deposit successfully'
 
     def withdraw(self, amount):
         self.account_balance -= amount
