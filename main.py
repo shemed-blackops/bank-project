@@ -74,6 +74,10 @@ def main():
             # Insert customer data
             customer.insert_data(details)
 
+            # Display customer details after registration
+            summary = customer.initial_account_details()
+            print(summary)
+
     # Existing user
     elif choice == '2':
         print('Account Number: ')
