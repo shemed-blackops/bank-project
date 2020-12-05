@@ -87,6 +87,8 @@ def main():
         print('Account Number: ')
         try:
             account_number = clean_data(input('> '))
+            customer.check_account_no(account_number)
+
         except:
             print('Error occurred')
             sys.exit()

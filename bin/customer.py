@@ -70,3 +70,22 @@ class Customer(Account):
         db.commit()
         c.close()
         db.close()
+
+    def check_account_no(self, account_number):
+        db = Database().connect()
+        c = db.cursor()
+
+        check_sql = """
+        SELECT account_no 
+        FROM customer 
+        WHERE account_no = %s
+        """
+        check_data = (account_number,)
+        c.execute(check_sql, check_data)
+
+        result = c.fetchone()
+
+        if len(result) < 1:
+            return False
+
+        return True
