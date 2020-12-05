@@ -43,4 +43,17 @@ class Account:
         db.commit()
         c.close()
         db.close()
-        return 'Amount withdraw successfully'
+        return True
+
+    def check_balance(self, account_number, amount):
+        db = Database().connect()
+        c = db.cursor()
+        sql = """
+        SELECT account_balance
+        FROM account
+        WHERE account.account_no = %s
+        """
+        data = (account_number,)
+        c.execute(sql, data)
+        account_balance = c.fetchone()
+        return account_balance[0]

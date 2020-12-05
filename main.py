@@ -1,4 +1,6 @@
 import sys
+import textwrap
+from decimal import Decimal
 
 from bin.customer import Customer
 from bin.db import Database
@@ -47,6 +49,10 @@ def menu_existing_user():
     print(existing_menu)
 
 
+def clean_data(data):
+    return data.strip()
+
+
 def main():
     # Printing banner and Menu
 
@@ -81,18 +87,21 @@ def main():
             print(summary)
         else:
             print('Wrong choice')
-            sys.exit()
     # Existing user
     elif choice == '2':
         print('Account Number: ')
+        account_number = clean_data(input('> '))
+        # Check account number if it exists
         try:
-            account_number = clean_data(input('> '))
-            customer.check_account_no(account_number)
-
-        except:
-            print('Error occurred')
+            is_available = customer.check_account_no(account_number)
+            if is_available is None:
+                print('Account does not exist')
+                sys.exit()
+        except NameError as e:
+            print(e)
             sys.exit()
 
+        # If it pass show menu
         menu_existing_user()
         choice = clean_data(input('> '))
         if choice == '1':
@@ -100,36 +109,42 @@ def main():
             summary = customer.account_summary(account_number)
             print(summary)
         elif choice == '2':
-            try:
-                print('Amount: ')
-                amount = float(clean_data(input('> ')))
-                result = customer.deposit(account_number, amount)
-                print(result)
-                summary = customer.account_summary(account_number)
-                print(summary)
-            except Exception:
-                print('Error occurred')
-                sys.exit()
+            print('Amount: ')
+            amount = float(clean_data(input('> ')))
+            result = customer.deposit(account_number, amount)
+            print(result)
+            summary = customer.account_summary(account_number)
+            print(summary)
         elif choice == '3':
             print('Amount')
+            amount = Decimal(clean_data(input('> ')))
             try:
-                amount = float(clean_data(input('> ')))
-                result = customer.withdraw(account_number, amount)
-                print(result)
-                summary = customer.account_summary(account_number)
-                print(summary)
-            except Exception:
-                print('Error occured. ')
+                balance = customer.check_balance(account_number, amount)
+                fee = Decimal(0.01) * amount
+                total_amount = fee + amount
+                if balance < total_amount:
+                    print('Insufficient balance... Please deposit')
+                    sys.exit()
+                else:
+                    result = customer.withdraw(account_number, total_amount)
+                    if result:
+                        output = f"""
+                        *****************************************
+                        *   Amount: {round(amount, 2)}                  
+                        *   Fee : {round(fee, 2)}                        
+                        *   Total amount : {round(total_amount, 2)}      
+                        ******************************************
+                        """
+                        print(textwrap.dedent(output))
+                        summary = customer.account_summary(account_number)
+                        print(summary)
+            except Exception as e:
+                print(e)
         else:
             print('Wrong choice')
-            sys.exit()
     else:
         print('Wrong choice')
         sys.exit()
-
-
-def clean_data(data):
-    return data.strip()
 
 
 if __name__ == '__main__':
