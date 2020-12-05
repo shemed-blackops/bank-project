@@ -15,8 +15,8 @@ class Customer(Account):
         return f"{self.details.get('first_name')} {self.details.get('last_name')}"
 
     def account_summary(self, account_no):
-        conn = Database().connect()
-        c = conn.cursor()
+        db = Database().connect()
+        c = db.cursor()
 
         summary_query = """
         SELECT 
@@ -41,6 +41,8 @@ class Customer(Account):
         Account Balance: {account_balance} 
         ****************************************
         """
+        c.close()
+        db.close()
         return dedent(output)
 
     def insert_data(self, details):
@@ -56,4 +58,5 @@ class Customer(Account):
         c.execute(account_query, account_data)  # Insert into account first
         c.execute(customer_query, customer_data)
         db.commit()
+        c.close()
         db.close()
