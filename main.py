@@ -1,5 +1,5 @@
 from bin.customer import Customer
-from bin.db import DB
+from bin.db import Database
 
 
 def print_banner():
@@ -11,43 +11,78 @@ def print_banner():
     print(banner)
 
 
-def print_menu():
-    menu = """
+def print_welcome_screen():
+    msg = """
+    *********************************
+    *       1. New User             *
+    *       2. Existing User        *
+    *********************************
+    """
+    print(msg)
+
+
+def menu_new_user():
+    new_menu = """
         *********************************
         *           MENU                *
         *********************************
-        *       1. Check Balance        *
+        *       1. Get Account          *
+        *********************************
+    """
+    print(new_menu)
+
+
+def menu_existing_user():
+    existing_menu = """
+        *********************************
+        *           MENU                *
+        *********************************
+        *       1. Account Summary      *
         *       2. Deposit              *
         *       3. Withdraw             *
         *********************************
     """
-    print(menu)
+    print(existing_menu)
 
 
 def main():
     # Printing banner and Menu
     print_banner()
-    print_menu()
+    print_welcome_screen()
+    choice = input('> ')
+    if choice == '1':
+        menu_new_user()
+        # For new user
+        # Taking user input
+        # details = {}
+        choice = input('> ')
+        if choice == '1':
+            first_name = input('First Name: ')
+            last_name = input('Last Name: ')
+            phone_number = input('Phone Number: ')
 
-    # Taking user input
-    details = {}
-    first_name = input('First Name: ')
-    last_name = input('Last Name: ')
-    phone_number = input('Phone Number: ')
+            # Adding to details
+            details = {
+                'first_name': first_name,
+                'last_name': last_name,
+                'phone_number': phone_number
+            }
+            # Creating database object
+            customer = Customer()
+            customer.insert_data(details)
 
-    # Adding to details
-    details = {
-        'first_name': first_name,
-        'last_name': last_name,
-        'phone_number': phone_number
-    }
+    # Existing user
+    elif choice == '2':
+        print('Account Number: ')
+        account_number = input('> ')
 
-    # Creating customer
-    customer = Customer(details)
-
-    # Creating database object
-    db = DB()
-    print(db)
+        menu_existing_user()
+        choice = input('> ')
+        if choice == '1':
+            # Fetch account details
+            customer = Customer()
+            summary = customer.account_summary(account_number)
+            print(summary)
 
 
 if __name__ == '__main__':
